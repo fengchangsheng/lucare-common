@@ -23,9 +23,16 @@ public class Strings {
         return string == null || string.length() == 0;
     }
 
-    public static void main(String[] args) {
-        System.out.println(" ".length());
+    public static boolean isEmpty(String input) {
+        return input == null || input.trim().isEmpty();
     }
 
+    public static boolean isNotEmpty(String input) {
+        return input != null && !input.trim().isEmpty();
+    }
+
+    public static String trim(String input) {
+        return input == null?null:input.trim();
+    }
 
 }
