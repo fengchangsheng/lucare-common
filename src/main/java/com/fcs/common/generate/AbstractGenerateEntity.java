@@ -38,6 +38,10 @@ public abstract class AbstractGenerateEntity {
 
     }
 
+    /**
+     * 初始化列
+     * @param tablename
+     */
     private void initCols(String tablename) {
         String sql = "select * from " + tablename;
         PreparedStatement pStemt = null;
@@ -69,6 +73,10 @@ public abstract class AbstractGenerateEntity {
         }
     }
 
+    /**
+     * 解析表并构建数据
+     * @param tablename
+     */
     private void parse(String tablename) {
         StringBuffer sb = new StringBuffer();
         sb.append("package " + DBConstant.packageOutPath + ";\r\n");
@@ -93,6 +101,10 @@ public abstract class AbstractGenerateEntity {
         content = sb.toString();
     }
 
+    /**
+     * 属性字段
+     * @param sb
+     */
     private void processAllAttrs(StringBuffer sb) {
         for (int i = 0; i < colnames.length; i++) {
             addAnnotation(colnames[i]);
@@ -101,6 +113,10 @@ public abstract class AbstractGenerateEntity {
 
     }
 
+    /**
+     * get/set方法
+     * @param sb
+     */
     private void processAllMethod(StringBuffer sb) {
         for (int i = 0; i < colnames.length; i++) {
             sb.append("\n\tpublic void set" + initcap(colnames[i]) + "(" + sqlType2JavaType(colTypes[i]) + " " +
@@ -113,6 +129,10 @@ public abstract class AbstractGenerateEntity {
         }
     }
 
+    /**
+     * 写成java实体类
+     * @param tableName
+     */
     private void writeData(String tableName) {
         try {
 
@@ -135,10 +155,5 @@ public abstract class AbstractGenerateEntity {
     }
 
     abstract void addAnnotation(String colName);
-
-    public String getPath(){
-        return this.getClass().getClassLoader().getResource("").getPath();
-    }
-
 
 }
