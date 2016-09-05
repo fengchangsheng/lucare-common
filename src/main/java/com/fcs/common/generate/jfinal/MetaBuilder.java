@@ -107,13 +107,13 @@ public class MetaBuilder {
         return "Base" + modelName;
     }
 
-    protected ResultSet getTableResultSet() {
-        String schemaPattern = dialect instanceof OracleDialect ? dbMeta.getUserName() : null;
-        return dbMeta.getTables(conn.getCatalog(), schemaPattern, null, new String[]{"TABLE", "VIEW"});
+    protected ResultSet getTablesResultSet() throws SQLException{
+//        String schemaPattern = dialect instanceof OracleDialect ? dbMeta.getUserName() : null;
+        return dbMeta.getTables(conn.getCatalog(), null, null, new String[]{"TABLE", "VIEW"});
     }
 
     protected void buildTableNames(List<TableMeta> ret) throws SQLException {
-        ResultSet rs = getTableResultSet();
+        ResultSet rs = getTablesResultSet();
         while (rs.next()) {
             String tableName = rs.getString("TABLE_NAME");
 
@@ -153,7 +153,7 @@ public class MetaBuilder {
     }
 
     protected void buildColumnMetas(TableMeta tableMeta) throws SQLException {
-        String sql = dialect.forTableBuilderDobuild(tableMeta.name);
+        String sql = "select * from `" + tableMeta.name + "` where 1 = 2";
         Statement stm = conn.createStatement();
         ResultSet rs = stm.executeQuery(sql);
         ResultSetMetaData rsmd = rs.getMetaData();
@@ -191,9 +191,9 @@ public class MetaBuilder {
      * Oralce 反射将得到大写字段名，所以不建议使用驼峰命名，建议使用下划线分隔单词命名法
      */
     protected String buildAttrName(String colName) {
-        if (dialect instanceof OracleDialect) {
-            colName = colName.toLowerCase();
-        }
+//        if (dialect instanceof OracleDialect) {
+//            colName = colName.toLowerCase();
+//        }
         return StrKit.toCamelCase(colName);
     }
 }

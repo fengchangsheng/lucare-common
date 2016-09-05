@@ -29,6 +29,14 @@
       <version>5.1.34</version>
     </dependency>
 
+    <!-- https://mvnrepository.com/artifact/com.alibaba/druid -->
+    <dependency>
+      <groupId>com.alibaba</groupId>
+      <artifactId>druid</artifactId>
+      <version>1.0.18</version>
+    </dependency>
+
+
     <!-- poi解析excel -->
     <dependency>
       <groupId>commons-lang</groupId>
