@@ -5,6 +5,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 
+import static com.fcs.common.generate.SqlHelper.initcap;
 import static com.fcs.common.generate.SqlHelper.sqlType2JavaType;
 
 /**
@@ -56,9 +57,10 @@ public class ModelGenerator {
     protected void genModelContent(TableMeta tableMeta) {
         StringBuilder ret = new StringBuilder();
         genPackage(ret);
-//        genImport(tableMeta, ret);
+        genImport(tableMeta, ret);
         genClassDefine(tableMeta, ret);
         genAttrs(tableMeta, ret);
+        genGetAndSet(tableMeta, ret);
         ret.append(String.format("}%n"));
         tableMeta.modelContent = ret.toString();
     }
@@ -68,7 +70,9 @@ public class ModelGenerator {
     }
 
     protected void genImport(TableMeta tableMeta, StringBuilder ret) {
-        ret.append(String.format(importTemplate, tableMeta.modelName));
+        if (tableMeta.isImportDate) {
+            ret.append(String.format(importTemplate, "java.util.Date"));
+        }
     }
 
     protected void genClassDefine(TableMeta tableMeta, StringBuilder ret) {
@@ -78,6 +82,18 @@ public class ModelGenerator {
     protected void genAttrs(TableMeta tableMeta, StringBuilder ret) {
         for (ColumnMeta columnMeta : tableMeta.columnMetas) {
             ret.append("\tprivate " + columnMeta.javaType + " " + columnMeta.attrName + ";\r\n");
+        }
+    }
+
+    protected void genGetAndSet(TableMeta tableMeta, StringBuilder ret) {
+        for (ColumnMeta columnMeta : tableMeta.columnMetas) {
+            ret.append("\n\tpublic void set" + columnMeta.attrName + "(" + columnMeta.javaType + " " +
+                    columnMeta.attrName + "){\r\n");
+            ret.append("\t\tthis." + columnMeta.attrName + " = " + columnMeta.attrName + ";\r\n");
+            ret.append("\t}\r\n");
+            ret.append("\n\tpublic " + columnMeta.javaType + " get" + columnMeta.attrName + "(){\r\n");
+            ret.append("\t\treturn " + columnMeta.attrName + ";\r\n");
+            ret.append("\t}\r\n");
         }
 
     }

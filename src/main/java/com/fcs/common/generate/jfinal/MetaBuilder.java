@@ -163,6 +163,10 @@ public class MetaBuilder {
             cm.name = rsmd.getColumnName(i);
 
             String colClassName = rsmd.getColumnClassName(i);
+            if ("java.sql.Timestamp".equals(colClassName) || "java.sql.Time".equals(colClassName) ||
+                    "java.sql.Date".equals(colClassName)){
+                tableMeta.isImportDate = true;
+            }
             String typeStr = typeMapping.getType(colClassName);
             if (typeStr != null) {
                 cm.javaType = typeStr;

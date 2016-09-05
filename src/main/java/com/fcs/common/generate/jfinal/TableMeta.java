@@ -12,6 +12,7 @@ public class TableMeta {
     public String remarks;
     public String primaryKey;
     public List<ColumnMeta> columnMetas = new ArrayList<>();
+    public boolean isImportDate = false;
 
     public String baseModelName;
     public String baseModelContent;

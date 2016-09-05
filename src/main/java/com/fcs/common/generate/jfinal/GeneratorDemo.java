@@ -15,7 +15,7 @@ public class GeneratorDemo {
 
 		dataSource.setUsername("root");
 		dataSource.setPassword("root");
-		dataSource.setUrl("jdbc:mysql://112.74.217.22:3306/train2");
+		dataSource.setUrl("jdbc:mysql://127.0.0.1:3306/parenting");
 		dataSource.setInitialSize(5);
 		dataSource.setMinIdle(1);
 		dataSource.setMaxActive(10); // 启用监控统计功能  dataSource.setFilters("stat");// for mysql  dataSource.setPoolPreparedStatements(false);

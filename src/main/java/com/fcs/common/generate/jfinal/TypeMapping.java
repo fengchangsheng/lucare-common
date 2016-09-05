@@ -14,13 +14,13 @@ public class TypeMapping {
         // put("java.util.Date", "java.util.Date");
 
         // date, year
-        put("java.sql.Date", "java.util.Date");
+        put("java.sql.Date", "Date");
 
         // time
-        put("java.sql.Time", "java.util.Date");
+        put("java.sql.Time", "Date");
 
         // timestamp, datetime
-        put("java.sql.Timestamp", "java.util.Date");
+        put("java.sql.Timestamp", "Date");
 
         // binary, varbinary, tinyblob, blob, mediumblob, longblob
         // qjd project: print_info.content varbinary(61800);
@@ -29,28 +29,28 @@ public class TypeMapping {
         // ---------
 
         // varchar, char, enum, set, text, tinytext, mediumtext, longtext
-        put("java.lang.String", "java.lang.String");
+        put("java.lang.String", "String");
 
         // int, integer, tinyint, smallint, mediumint
-        put("java.lang.Integer", "java.lang.Integer");
+        put("java.lang.Integer", "Integer");
 
         // bigint
-        put("java.lang.Long", "java.lang.Long");
+        put("java.lang.Long", "Long");
 
         // real, double
-        put("java.lang.Double", "java.lang.Double");
+        put("java.lang.Double", "Double");
 
         // float
-        put("java.lang.Float", "java.lang.Float");
+        put("java.lang.Float", "Float");
 
         // bit
-        put("java.lang.Boolean", "java.lang.Boolean");
+        put("java.lang.Boolean", "Boolean");
 
         // decimal, numeric
-        put("java.math.BigDecimal", "java.math.BigDecimal");
+        put("java.math.BigDecimal", "BigDecimal");
 
         // unsigned bigint
-        put("java.math.BigInteger", "java.math.BigInteger");
+        put("java.math.BigInteger", "BigInteger");
 
     }};
 
