@@ -13,5 +13,15 @@ public class ColumnMeta {
     public String isNullable;
     public String isPrimaryKey;
     public String defaultValue;
-    public String remarks;  //字段备注
+    public String remarks = "";  //字段备注
+
+    public static String initcap(String str) {
+
+        char[] ch = str.toCharArray();
+        if (ch[0] >= 'a' && ch[0] <= 'z') {
+            ch[0] = (char) (ch[0] - 32);
+        }
+
+        return new String(ch);
+    }
 }

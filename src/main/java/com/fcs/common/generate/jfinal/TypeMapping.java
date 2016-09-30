@@ -32,19 +32,19 @@ public class TypeMapping {
         put("java.lang.String", "String");
 
         // int, integer, tinyint, smallint, mediumint
-        put("java.lang.Integer", "Integer");
+        put("java.lang.Integer", "int");
 
         // bigint
-        put("java.lang.Long", "Long");
+        put("java.lang.Long", "long");
 
         // real, double
-        put("java.lang.Double", "Double");
+        put("java.lang.Double", "double");
 
         // float
-        put("java.lang.Float", "Float");
+        put("java.lang.Float", "float");
 
         // bit
-        put("java.lang.Boolean", "Boolean");
+        put("java.lang.Boolean", "boolean");
 
         // decimal, numeric
         put("java.math.BigDecimal", "BigDecimal");

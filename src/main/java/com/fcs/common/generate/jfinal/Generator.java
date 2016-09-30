@@ -12,17 +12,18 @@ public class Generator {
     protected ModelGenerator modelGenerator;
     protected DataDictionaryGenerator dataDictionaryGenerator;
     protected boolean generateDataDictionary = false;
+    protected boolean generateAnnotation = false;
 
-    public Generator(DataSource dataSource, String modelPackageName, String modelOutputDir) {
-        this(dataSource, new ModelGenerator(modelPackageName, modelOutputDir));
-    }
+//    public Generator(DataSource dataSource, String modelPackageName, String modelOutputDir) {
+//        this(dataSource, new ModelGenerator(modelPackageName, modelOutputDir));
+//    }
 
     public Generator(DataSource dataSource) {
         if (dataSource == null) {
             throw new IllegalArgumentException("dataSource can not be null.");
         }
 
-        this.metaBuilder = new MetaBuilder(dataSource);
+        this.metaBuilder = new MetaBuilder(dataSource, generateAnnotation);
         this.modelGenerator = null;
         this.dataDictionaryGenerator = null;
     }
@@ -36,9 +37,9 @@ public class Generator {
             throw new IllegalArgumentException("modelGenerator can not be null");
         }
 
-        this.metaBuilder = new MetaBuilder(dataSource);
+        this.metaBuilder = new MetaBuilder(dataSource, generateAnnotation);
         this.modelGenerator = modelGenerator;
-        this.dataDictionaryGenerator = new DataDictionaryGenerator(dataSource,modelGenerator.modelOutputDir);
+        this.dataDictionaryGenerator = new DataDictionaryGenerator(dataSource, modelGenerator.modelOutputDir);
     }
 
     /**
@@ -51,7 +52,7 @@ public class Generator {
 
     /**
      * 添加不需要处理的数据表
-      * @param excludedTables
+     * @param excludedTables
      */
     public void addExcludedTable(String... excludedTables) {
         metaBuilder.addExcludedTable(excludedTables);
@@ -85,6 +86,14 @@ public class Generator {
         }
     }
 
+    /**
+     * 设置是否生成字段注解  默认不生成
+     *
+     * @param generateAnnotation
+     */
+    public void setGenerateAnnotation(boolean generateAnnotation) {
+        this.generateAnnotation = generateAnnotation;
+    }
 
     public void generate() {
         long start = System.currentTimeMillis();
@@ -103,6 +112,6 @@ public class Generator {
         }
 
         long useTime = (System.currentTimeMillis() - start) / 1000;
-        System.out.println("Generate complete in "+ useTime + "seconds.");
+        System.out.println("Generate complete in " + useTime + "seconds.");
     }
 }

@@ -35,7 +35,10 @@ public class GeneratorDemo {
 		String modelOutputDir = PathKit.getWebRootPath() + "/src/main/java/com/fcs/common/model";
 		
 		// 创建生成器
-		Generator gernerator = new Generator(getDataSource(), modelPackageName, modelOutputDir);
+//		Generator gernerator = new Generator(getDataSource(), modelPackageName, modelOutputDir);
+//		Generator gernerator = new Generator(getDataSource(), modelPackageName, modelOutputDir);
+		ModelGenerator modelGenerator = new MyModelGenerator(modelPackageName, modelOutputDir,true);
+		Generator gernerator = new Generator(getDataSource(), modelGenerator);
 		// 添加不需要生成的表名
 		gernerator.addExcludedTable("adv");
 		// 设置是否生成字典文件

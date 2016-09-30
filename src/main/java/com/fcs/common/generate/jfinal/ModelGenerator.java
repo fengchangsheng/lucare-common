@@ -5,13 +5,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 
-import static com.fcs.common.generate.SqlHelper.initcap;
-import static com.fcs.common.generate.SqlHelper.sqlType2JavaType;
-
 /**
  * Created by Lucare.Feng on 2016/9/4.
  */
-public class ModelGenerator {
+public abstract class ModelGenerator {
 
     protected String packageTemplate = "package %s;%n%n";
     protected String importTemplate = "import %s;%n%n";
@@ -24,8 +21,9 @@ public class ModelGenerator {
     protected String baseModelPackageName;
     protected String modelOutputDir;
     protected boolean generateDaoInModel = true;
+    protected boolean generateAnnotation = false;
 
-    public ModelGenerator(String modelPackageName, String modelOutputDir) {
+    public ModelGenerator(String modelPackageName, String modelOutputDir, boolean generateAnnotation) {
         if (StrKit.isBlank(modelPackageName))
             throw new IllegalArgumentException("modelPackageName can not be blank.");
 
@@ -44,6 +42,7 @@ public class ModelGenerator {
         this.modelPackageName = modelPackageName;
 //        this.baseModelPackageName = baseModelPackageName;
         this.modelOutputDir = modelOutputDir;
+        this.generateAnnotation = generateAnnotation;
     }
 
     public void generate(List<TableMeta> tableMetas) {
@@ -73,6 +72,10 @@ public class ModelGenerator {
         if (tableMeta.isImportDate) {
             ret.append(String.format(importTemplate, "java.util.Date"));
         }
+
+        if (generateAnnotation) {
+            genAnnotationImport(ret);
+        }
     }
 
     protected void genClassDefine(TableMeta tableMeta, StringBuilder ret) {
@@ -81,17 +84,20 @@ public class ModelGenerator {
 
     protected void genAttrs(TableMeta tableMeta, StringBuilder ret) {
         for (ColumnMeta columnMeta : tableMeta.columnMetas) {
+            if (generateAnnotation) {
+                genAnnotation(columnMeta, ret);
+            }
             ret.append("\tprivate " + columnMeta.javaType + " " + columnMeta.attrName + ";\r\n");
         }
     }
 
     protected void genGetAndSet(TableMeta tableMeta, StringBuilder ret) {
         for (ColumnMeta columnMeta : tableMeta.columnMetas) {
-            ret.append("\n\tpublic void set" + columnMeta.attrName + "(" + columnMeta.javaType + " " +
+            ret.append("\n\tpublic void set" + ColumnMeta.initcap(columnMeta.attrName) + "(" + columnMeta.javaType + " " +
                     columnMeta.attrName + "){\r\n");
             ret.append("\t\tthis." + columnMeta.attrName + " = " + columnMeta.attrName + ";\r\n");
             ret.append("\t}\r\n");
-            ret.append("\n\tpublic " + columnMeta.javaType + " get" + columnMeta.attrName + "(){\r\n");
+            ret.append("\n\tpublic " + columnMeta.javaType + " get" + ColumnMeta.initcap(columnMeta.attrName) + "(){\r\n");
             ret.append("\t\treturn " + columnMeta.attrName + ";\r\n");
             ret.append("\t}\r\n");
         }
@@ -130,5 +136,9 @@ public class ModelGenerator {
         }
 
     }
+
+    abstract void genAnnotationImport(StringBuilder ret);
+
+    abstract void genAnnotation(ColumnMeta columnMeta,StringBuilder ret);
 
 }

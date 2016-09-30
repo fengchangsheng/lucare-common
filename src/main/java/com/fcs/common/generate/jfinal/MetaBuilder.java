@@ -2,10 +2,7 @@ package com.fcs.common.generate.jfinal;
 
 import javax.sql.DataSource;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 
 /**
  * Created by Lucare.Feng on 2016/9/3.
@@ -23,12 +20,15 @@ public class MetaBuilder {
 
     protected TypeMapping typeMapping = new TypeMapping();
 
-    public MetaBuilder(DataSource dataSouce) {
+    protected boolean generateAnnotation = false;
+
+    public MetaBuilder(DataSource dataSouce, boolean generateAnnotation) {
         if (dataSouce == null) {
             throw new IllegalArgumentException("dataSource can not be null.");
 
         }
         this.dataSouce = dataSouce;
+        this.generateAnnotation = generateAnnotation;
     }
 
     public void addExcludedTable(String... excludedTables) {
@@ -42,6 +42,7 @@ public class MetaBuilder {
     /**
      * 设置需要被移除的表名前缀，仅用于生成modelName 与 baseModelName
      * 例如表名  "osc_account". 移除前缀"osc_"变为account
+     *
      * @param removeTableNamePrefixes
      */
     public void setRemoveTableNamePrefixes(String... removeTableNamePrefixes) {
@@ -70,7 +71,7 @@ public class MetaBuilder {
             return ret;
         } catch (SQLException e) {
             throw new RuntimeException(e);
-        }finally {
+        } finally {
             if (conn != null) {
                 try {
                     conn.close();
@@ -107,7 +108,7 @@ public class MetaBuilder {
         return "Base" + modelName;
     }
 
-    protected ResultSet getTablesResultSet() throws SQLException{
+    protected ResultSet getTablesResultSet() throws SQLException {
 //        String schemaPattern = dialect instanceof OracleDialect ? dbMeta.getUserName() : null;
         return dbMeta.getTables(conn.getCatalog(), null, null, new String[]{"TABLE", "VIEW"});
     }
@@ -138,7 +139,7 @@ public class MetaBuilder {
         rs.close();
     }
 
-    protected void buildPrimaryKey(TableMeta tableMeta) throws SQLException{
+    protected void buildPrimaryKey(TableMeta tableMeta) throws SQLException {
         ResultSet rs = dbMeta.getPrimaryKeys(conn.getCatalog(), null, tableMeta.name);
 
         String primaryKey = "";
@@ -154,17 +155,32 @@ public class MetaBuilder {
 
     protected void buildColumnMetas(TableMeta tableMeta) throws SQLException {
         String sql = "select * from `" + tableMeta.name + "` where 1 = 2";
+        String fieldSql = "show full columns from " + tableMeta.name;
         Statement stm = conn.createStatement();
+        Statement filedstm = conn.createStatement();
         ResultSet rs = stm.executeQuery(sql);
+        ResultSet fieldrs = filedstm.executeQuery(fieldSql);
         ResultSetMetaData rsmd = rs.getMetaData();
 
-        for (int i = 1; i<=rsmd.getColumnCount(); i++) {
+        Map<String, String> map = null;
+        if (generateAnnotation) {
+            map = new HashMap<>();
+            while (fieldrs.next()) {
+                map.put(fieldrs.getString("Field"), fieldrs.getString("Comment"));
+//            System.out.println(fieldrs.getString("Field") + "\t:\t"+  fieldrs.getString("Comment") );
+            }
+        }
+
+        for (int i = 1; i <= rsmd.getColumnCount(); i++) {
             ColumnMeta cm = new ColumnMeta();
             cm.name = rsmd.getColumnName(i);
+            if (map != null) {
+                cm.remarks = map.get(cm.name) == null ? "" : map.get(cm.name);
+            }
 
             String colClassName = rsmd.getColumnClassName(i);
             if ("java.sql.Timestamp".equals(colClassName) || "java.sql.Time".equals(colClassName) ||
-                    "java.sql.Date".equals(colClassName)){
+                    "java.sql.Date".equals(colClassName)) {
                 tableMeta.isImportDate = true;
             }
             String typeStr = typeMapping.getType(colClassName);
@@ -176,7 +192,7 @@ public class MetaBuilder {
                     cm.javaType = "byte[]";
                 } else if (type == Types.CLOB || type == Types.NCLOB) {
                     cm.javaType = "java.lang.String";
-                } else{
+                } else {
                     cm.javaType = "java.lang.String";
                 }
             }
