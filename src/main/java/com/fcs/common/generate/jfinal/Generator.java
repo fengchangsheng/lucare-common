@@ -14,10 +14,6 @@ public class Generator {
     protected boolean generateDataDictionary = false;
     protected boolean generateAnnotation = false;
 
-//    public Generator(DataSource dataSource, String modelPackageName, String modelOutputDir) {
-//        this(dataSource, new ModelGenerator(modelPackageName, modelOutputDir));
-//    }
-
     public Generator(DataSource dataSource) {
         if (dataSource == null) {
             throw new IllegalArgumentException("dataSource can not be null.");

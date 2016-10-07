@@ -20,7 +20,6 @@ public abstract class ModelGenerator {
     protected String modelPackageName;
     protected String baseModelPackageName;
     protected String modelOutputDir;
-    protected boolean generateDaoInModel = true;
     protected boolean generateAnnotation = false;
 
     public ModelGenerator(String modelPackageName, String modelOutputDir, boolean generateAnnotation) {
