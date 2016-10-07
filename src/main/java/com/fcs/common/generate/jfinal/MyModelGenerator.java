@@ -5,8 +5,8 @@ package com.fcs.common.generate.jfinal;
  */
 public class MyModelGenerator extends ModelGenerator {
 
-    public MyModelGenerator(String modelPackageName, String modelOutputDir, boolean generateAnnotation) {
-        super(modelPackageName, modelOutputDir, generateAnnotation);
+    public MyModelGenerator(String modelPackageName, String modelOutputDir) {
+        super(modelPackageName, modelOutputDir);
     }
 
     @Override

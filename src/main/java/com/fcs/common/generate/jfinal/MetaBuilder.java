@@ -22,13 +22,11 @@ public class MetaBuilder {
 
     protected boolean generateAnnotation = false;
 
-    public MetaBuilder(DataSource dataSouce, boolean generateAnnotation) {
+    public MetaBuilder(DataSource dataSouce) {
         if (dataSouce == null) {
             throw new IllegalArgumentException("dataSource can not be null.");
-
         }
         this.dataSouce = dataSouce;
-        this.generateAnnotation = generateAnnotation;
     }
 
     public void addExcludedTable(String... excludedTables) {
@@ -37,6 +35,14 @@ public class MetaBuilder {
                 this.excludedTables.add(table);
             }
         }
+    }
+
+    /**
+     * 是否生成注解
+     * @param generateAnnotation
+     */
+    public void setGenerateAnnotation(boolean generateAnnotation) {
+        this.generateAnnotation = generateAnnotation;
     }
 
     /**

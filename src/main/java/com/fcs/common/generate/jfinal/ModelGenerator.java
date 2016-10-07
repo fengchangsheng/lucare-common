@@ -22,7 +22,7 @@ public abstract class ModelGenerator {
     protected String modelOutputDir;
     protected boolean generateAnnotation = false;
 
-    public ModelGenerator(String modelPackageName, String modelOutputDir, boolean generateAnnotation) {
+    public ModelGenerator(String modelPackageName, String modelOutputDir) {
         if (StrKit.isBlank(modelPackageName))
             throw new IllegalArgumentException("modelPackageName can not be blank.");
 
@@ -41,7 +41,6 @@ public abstract class ModelGenerator {
         this.modelPackageName = modelPackageName;
 //        this.baseModelPackageName = baseModelPackageName;
         this.modelOutputDir = modelOutputDir;
-        this.generateAnnotation = generateAnnotation;
     }
 
     public void generate(List<TableMeta> tableMetas) {
@@ -134,6 +133,10 @@ public abstract class ModelGenerator {
             fw.close();
         }
 
+    }
+
+    public void setGenerateAnnotation(boolean generateAnnotation) {
+        this.generateAnnotation = generateAnnotation;
     }
 
     abstract void genAnnotationImport(StringBuilder ret);

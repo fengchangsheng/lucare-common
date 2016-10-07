@@ -12,14 +12,13 @@ public class Generator {
     protected ModelGenerator modelGenerator;
     protected DataDictionaryGenerator dataDictionaryGenerator;
     protected boolean generateDataDictionary = false;
-    protected boolean generateAnnotation = false;
 
     public Generator(DataSource dataSource) {
         if (dataSource == null) {
             throw new IllegalArgumentException("dataSource can not be null.");
         }
 
-        this.metaBuilder = new MetaBuilder(dataSource, generateAnnotation);
+        this.metaBuilder = new MetaBuilder(dataSource);
         this.modelGenerator = null;
         this.dataDictionaryGenerator = null;
     }
@@ -33,7 +32,7 @@ public class Generator {
             throw new IllegalArgumentException("modelGenerator can not be null");
         }
 
-        this.metaBuilder = new MetaBuilder(dataSource, generateAnnotation);
+        this.metaBuilder = new MetaBuilder(dataSource);
         this.modelGenerator = modelGenerator;
         this.dataDictionaryGenerator = new DataDictionaryGenerator(dataSource, modelGenerator.modelOutputDir);
     }
@@ -88,7 +87,8 @@ public class Generator {
      * @param generateAnnotation
      */
     public void setGenerateAnnotation(boolean generateAnnotation) {
-        this.generateAnnotation = generateAnnotation;
+        metaBuilder.generateAnnotation = generateAnnotation;
+        modelGenerator.generateAnnotation = generateAnnotation;
     }
 
     public void generate() {
