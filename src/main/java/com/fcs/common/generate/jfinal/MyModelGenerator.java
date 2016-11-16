@@ -10,6 +10,11 @@ public class MyModelGenerator extends ModelGenerator {
     }
 
     @Override
+    void genClassAnnotion(TableMeta tableMeta, StringBuilder ret) {
+        ret.append("@CTMapping(table = \""+tableMeta.name+"\")\r\n");
+    }
+
+    @Override
     void genAnnotationImport(StringBuilder ret) {
         ret.append("import org.mission.dbclient.annotation.CTMapping;\n" +
                 "import org.mission.dbclient.annotation.FCMapping;\r\n");
