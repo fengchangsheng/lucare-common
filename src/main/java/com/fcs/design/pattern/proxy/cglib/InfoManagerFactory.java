@@ -15,8 +15,11 @@ public class InfoManagerFactory {
 
     public static InfoManager getAuthInstance(AuthProxy authProxy){
         Enhancer enhancer = new Enhancer();
+        // 设置要代理的目标类
         enhancer.setSuperclass(InfoManager.class);
+        // 设置要代理的拦截器
         enhancer.setCallback(authProxy);
+        // 生成代理类的实例
         return (InfoManager) enhancer.create();
     }
 

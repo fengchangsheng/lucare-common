@@ -1,4 +1,7 @@
-package com.fcs.design.pattern.proxy;
+package com.fcs.design.pattern.proxy.jdks;
+
+import com.fcs.design.pattern.proxy.MySqlSession;
+import com.fcs.design.pattern.proxy.MySqlSessionImpl;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
@@ -8,7 +11,7 @@ import static java.lang.reflect.Proxy.newProxyInstance;
 /**
  * Created by fengcs on 2018/2/6.
  */
-public class DynamicProxy implements MySqlSession{
+public class DynamicProxy implements MySqlSession {
 
     private final MySqlSession sqlSessionProxy;
 

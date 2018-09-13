@@ -7,10 +7,10 @@ public class Client {
 
     public static void main(String[] args) {
         InfoManager infoManager = InfoManagerFactory.getInstance();
-        infoManager.create();
+        infoManager.update();
 
         InfoManager anthInfoManager = InfoManagerFactory.getAuthInstance(new AuthProxy("s"));
-        anthInfoManager.create();
+        anthInfoManager.update();
     }
 
 }

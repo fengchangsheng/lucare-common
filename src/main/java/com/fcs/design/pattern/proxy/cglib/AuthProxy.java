@@ -19,7 +19,7 @@ public class AuthProxy implements MethodInterceptor {
     @Override
     public Object intercept(Object o, Method method, Object[] objects, MethodProxy methodProxy) throws Throwable {
         if (!"lucare".equals(name)) {
-            System.out.println("has no authority..");
+            System.out.println("has no authority..to invoke the method: "+method.getName());
             return null;
         }
         return methodProxy.invokeSuper(o, objects);
