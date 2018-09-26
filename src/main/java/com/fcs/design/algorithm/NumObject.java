@@ -1,4 +1,4 @@
-package com.fcs.common.algorithm;
+package com.fcs.design.algorithm;
 
 import com.google.common.collect.Lists;
 
@@ -12,7 +12,7 @@ public class NumObject {
 
     private BigDecimal totalFee = new BigDecimal(0);
     private List<Integer> feeList = Lists.newArrayList();
-    private BigDecimal fixFee = new BigDecimal(100);
+    public static final BigDecimal fixFee = new BigDecimal(100);
 
     public boolean compareAndAdd(int fee) {
         BigDecimal sumFee = totalFee.add(new BigDecimal(fee));

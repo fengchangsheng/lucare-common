@@ -1,4 +1,4 @@
-package com.fcs.common.algorithm;
+package com.fcs.design.algorithm;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
@@ -15,9 +15,15 @@ import java.util.TreeSet;
 public class SplitFeeTest {
 
     public static void main(String[] args) {
-//        Integer[] feeArray = new Integer[]{10, 80, 50, 40, 30, 60, 20, 70};
-        Integer[] feeArray = new Integer[]{10, 80, 15, 15, 30, 25, 25, 56};
+        Integer[] feeArray = new Integer[]{10, 80, 50, 40, 30, 60, 20, 70};
+//        Integer[] feeArray = new Integer[]{10, 80, 15, 15, 30, 25, 25, 56};
+//        Integer[] feeArray = new Integer[]{10, 800, 150, 150, 300, 250, 250, 560};
         TreeSet<Integer> feeSet = Sets.newTreeSet(Arrays.asList(feeArray));
+        Integer plusValue = feeSet.higher(NumObject.fixFee.intValue());
+        if (plusValue != null) {
+            System.out.println("存在元素大于阈值，无法操作！");
+            return;
+        }
         // 一个而大容器   用来放桶
         List<NumObject> numObjectList = Lists.newArrayList();
         replayMethod(feeSet, numObjectList);
