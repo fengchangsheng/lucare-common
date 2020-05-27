@@ -17,7 +17,6 @@ public class DistributionTest {
      * 1、把资源数据排序，把使用者排序
      * 2、当最大的资源大于最大的使用者，需要分出来多余的资源给第二大的使用者，如果还是用不完，继续分下去
      * 3、当最大的资源小于最大的使用者，先分配给最大的使用者全部资源，把剩下的需求切割下来作新的分配
-     * @param args
      */
     public static void main(String[] args) {
         // 现有固定资源一批
@@ -28,11 +27,10 @@ public class DistributionTest {
 //        Integer[] useArray = new Integer[]{30, 30, 50};
         TreeMultiset<Integer> feeSet = TreeMultiset.create(Lists.newArrayList(feeArray));
         TreeMultiset<Integer> useSet = TreeMultiset.create(Lists.newArrayList(useArray));
-        List<FixObject> fixObjectList = Lists.newArrayList();
-        replay(feeSet, useSet, fixObjectList);
+        replay(feeSet, useSet);
     }
 
-    private static void replay(TreeMultiset<Integer> feeSet, TreeMultiset<Integer> useSet, List<FixObject> fixObjectList) {
+    private static void replay(TreeMultiset<Integer> feeSet, TreeMultiset<Integer> useSet) {
         Integer[] a = new Integer[feeSet.size()];
         Integer[] newFeeArray = feeSet.toArray(a);
         int alen = newFeeArray.length;
@@ -65,7 +63,7 @@ public class DistributionTest {
                     System.out.println(newFeeArray[i] + " -- " + newUseArray[j]);
                 }
                 if (!feeSet.isEmpty()) {
-                    replay(feeSet, useSet, fixObjectList);
+                    replay(feeSet, useSet);
                     return;
                 }
             }
