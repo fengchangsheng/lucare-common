@@ -22,8 +22,8 @@ public class DistributionPlusTest {
      */
     public static void main(String[] args) {
         List<FeeItem> feeItems = Lists.newArrayList();
-        feeItems.add(new FeeItem(1, 50));
-        feeItems.add(new FeeItem(2, 40));
+//        feeItems.add(new FeeItem(1, 50));
+//        feeItems.add(new FeeItem(2, 40));
         feeItems.add(new FeeItem(3, 10));
         List<UseItem> useItems = Lists.newArrayList();
         useItems.add(new UseItem(101, 30));
@@ -49,35 +49,52 @@ public class DistributionPlusTest {
         UseItem[] b = new UseItem[useSet.size()];
         UseItem[] newUseArray = useSet.toArray(b);
         int blen = newUseArray.length;
+        UseItem useItem = null;
+        int tempFee;
         for (int i = alen - 1; i >= 0; i--) {
             for (int j = blen - 1; j >= 0; j--) {
+                useItem = copyFormOri(newUseArray[j]);
                 if (resultCache.get(newFeeArray[i].getId()) == null) {
                     List<UseItem> resultList = Lists.newArrayList();
-                    resultList.add(newUseArray[j]);
+                    resultList.add(useItem);
                     resultCache.put(newFeeArray[i].getId(), resultList);
                 }else {
-                    resultCache.get(newFeeArray[i].getId()).add(newUseArray[j]);
+                    resultCache.get(newFeeArray[i].getId()).add(useItem);
                 }
                 // 发票大于明细  明细全使用  发票多余退回参与下次分配
                 if (newFeeArray[i].getFee() > newUseArray[j].getFee()) {
                     newFeeArray[i].setFee(newFeeArray[i].getFee() - newUseArray[j].getFee());
+                    useItem.setFee(newUseArray[j].getFee());
                     useSet.remove(newUseArray[j]);
                 } else if (newFeeArray[i].getFee() < newUseArray[j].getFee()) {
                     // 发票小于明细  发票全使用  明细多余退回参与下次分配
                     feeSet.remove(newFeeArray[i]);
-                    newUseArray[j].setFee(newUseArray[j].getFee() - newFeeArray[i].getFee());
+                    tempFee = newUseArray[j].getFee() - newFeeArray[i].getFee();
+                    useItem.setFee(newFeeArray[i].getFee());
+                    newUseArray[j].setFee(tempFee);
+//                    newUseArray[j].setFee(newFeeArray[i].getFee());
                 } else {
                     feeSet.remove(newFeeArray[i]);
                     useSet.remove(newUseArray[j]);
+                    useItem.setFee(newUseArray[j].getFee());
                 }
 
                 if (!feeSet.isEmpty()) {
                     replay(feeSet, useSet, resultCache);
                     return;
+                }else {
+                    break;
                 }
             }
         }
 
+    }
+
+    private static UseItem copyFormOri(UseItem oriItem) {
+        UseItem useItem = new UseItem();
+        useItem.setId(oriItem.getId());
+        useItem.setFee(oriItem.getFee());
+        return useItem;
     }
 
 }

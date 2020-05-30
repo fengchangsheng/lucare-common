@@ -8,6 +8,9 @@ public class UseItem implements Comparable<UseItem>{
     private Integer id;
     private Integer fee;
 
+    public UseItem() {
+    }
+
     public UseItem(Integer id, Integer fee) {
         this.id = id;
         this.fee = fee;
