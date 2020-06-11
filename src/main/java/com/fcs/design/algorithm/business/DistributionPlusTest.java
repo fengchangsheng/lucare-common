@@ -1,5 +1,7 @@
-package com.fcs.design.algorithm;
+package com.fcs.design.algorithm.business;
 
+import com.fcs.design.algorithm.business.FeeItem;
+import com.fcs.design.algorithm.business.UseItem;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.TreeMultiset;
@@ -22,13 +24,15 @@ public class DistributionPlusTest {
      */
     public static void main(String[] args) {
         List<FeeItem> feeItems = Lists.newArrayList();
-//        feeItems.add(new FeeItem(1, 50));
+        feeItems.add(new FeeItem(1, 10));
+        feeItems.add(new FeeItem(2, 5));
+        feeItems.add(new FeeItem(3, 3));
 //        feeItems.add(new FeeItem(2, 40));
-        feeItems.add(new FeeItem(3, 10));
+//        feeItems.add(new FeeItem(3, 10));
         List<UseItem> useItems = Lists.newArrayList();
-        useItems.add(new UseItem(101, 30));
-        useItems.add(new UseItem(102, 30));
-        useItems.add(new UseItem(103, 50));
+        useItems.add(new UseItem(101, 15));
+        useItems.add(new UseItem(102, 12));
+//        useItems.add(new UseItem(103, 50));
         TreeMultiset<FeeItem> feeSet = TreeMultiset.create(feeItems);
         TreeMultiset<UseItem> useSet = TreeMultiset.create(useItems);
         Map<Integer, List<UseItem>> resultCache = Maps.newHashMap();

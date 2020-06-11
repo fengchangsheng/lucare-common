@@ -1,21 +1,17 @@
-package com.fcs.design.algorithm;
-
-import com.google.common.collect.Lists;
-
-import java.util.List;
+package com.fcs.design.algorithm.business;
 
 /**
  * Created by fengcs on 2020/5/27.
  */
-
-public class FeeItem implements Comparable<FeeItem>{
+public class UseItem implements Comparable<UseItem>{
 
     private Integer id;
     private Integer fee;
 
-    private List<UseItem> useItemList = Lists.newArrayList();
+    public UseItem() {
+    }
 
-    public FeeItem(Integer id, Integer fee) {
+    public UseItem(Integer id, Integer fee) {
         this.id = id;
         this.fee = fee;
     }
@@ -36,16 +32,8 @@ public class FeeItem implements Comparable<FeeItem>{
         this.fee = fee;
     }
 
-    public List<UseItem> getUseItemList() {
-        return useItemList;
-    }
-
-    public void setUseItemList(List<UseItem> useItemList) {
-        this.useItemList = useItemList;
-    }
-
     @Override
-    public int compareTo(FeeItem o) {
+    public int compareTo(UseItem o) {
         int feeStatus = this.fee.compareTo(o.getFee());
         if (feeStatus == 0) {
             if (this.id != null) {

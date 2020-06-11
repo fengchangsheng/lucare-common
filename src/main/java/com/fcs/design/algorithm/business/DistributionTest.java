@@ -1,4 +1,4 @@
-package com.fcs.design.algorithm;
+package com.fcs.design.algorithm.business;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.TreeMultiset;
